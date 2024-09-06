@@ -4,7 +4,7 @@ const mediaCollection = [
     'media/20240630_213123.jpg',
     'media/20240702_173424.jpg',
     'media/20240702_173426.jpg',
-    'media/20240702_174351.jpg',
+    'media/20240702_174351.jpg',    
     'media/20240702_174409.jpg',
     'media/20240702_205418.jpg',
     'media/20240704_102605.jpg',
@@ -85,6 +85,8 @@ const mediaCollection = [
     'media/VID-20240820-WA0001.mp4'
 ];
 
+let usedMedia = [];
+
 const petals = document.querySelectorAll('.petal');
 const endMessage = document.getElementById('end-message');
 const restartButton = document.getElementById('restart-button');
@@ -115,8 +117,23 @@ function handlePetalClick(event) {
 }
 
 function getRandomMedia() {
-    const randomIndex = Math.floor(Math.random() * mediaCollection.length);
-    return mediaCollection[randomIndex];
+   // Filter mediaCollection to exclude already used media
+   const availableMedia = mediaCollection.filter(media => !usedMedia.includes(media));
+    
+   // If all media has been used, reset usedMedia array
+   if (availableMedia.length === 0) {
+       usedMedia = [];
+       return getRandomMedia(); // Recursive call to get a new random media
+   }
+   
+   // Randomly select an available media file
+   const randomIndex = Math.floor(Math.random() * availableMedia.length);
+   const selectedMedia = availableMedia[randomIndex];
+   
+   // Add the selected media to the usedMedia array
+   usedMedia.push(selectedMedia);
+   
+   return selectedMedia;
 }
 
 function displayMedia(media) {
@@ -127,6 +144,7 @@ function displayMedia(media) {
         const video = document.createElement('video');
         video.src = media;
         video.controls = true;
+        video.autoplay = true;
         mediaDisplay.appendChild(video);
     } else {
         const img = document.createElement('img');
