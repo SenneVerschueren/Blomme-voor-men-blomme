@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f8ff;
+}
+
+/* Center the entire flower on the screen */
+.flower-container {
+    position: relative;
+    width: 200px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.flower {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style the petals */
+.petal {
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background-color: pink;
+    border-radius: 50%;
+    cursor: pointer;
+    transform-origin: 50% 90%; /* Rotate around the base of the petal */
+}
+
+/* Position petals around the center, attached directly */
+.petal-1 { transform: rotate(0deg) translate(0, -50px); }
+.petal-2 { transform: rotate(60deg) translate(-20px, -30px); }
+.petal-3 { transform: rotate(120deg) translate(-25px, -0px); }
+.petal-4 { transform: rotate(180deg) translate(0, 15px); z-index: 1; }
+.petal-5 { transform: rotate(240deg) translate(25px, 0px); }
+.petal-6 { transform: rotate(300deg) translate(20px, -30px); }
+
+/* .petal-11 { transform: rotate(0deg) translate(0, -50px); }
+.petal-1 { transform: rotate(30deg) translate(-20px, -40px); }
+.petal-7 { transform: rotate(60deg) translate(-30px, -35px); }
+.petal-2 { transform: rotate(90deg) translate(-30px, -5px); }
+.petal-8 { transform: rotate(120deg) translate(-20px, -5px); }
+.petal-3 { transform: rotate(150deg) translate(-10px, 20px); z-index: 1; }
+.petal-4 { transform: rotate(210deg) translate(10px, 20px); z-index: 1;}
+.petal-9 { transform: rotate(240deg) translate(20px, -5px); }
+.petal-5 { transform: rotate(270deg) translate(30px, -5px); }
+.petal-10 { transform: rotate(300deg) translate(30px, -35px); }
+.petal-6 { transform: rotate(330deg) translate(20px, -40px); } */
+
+
+/* Center of the flower */
+.center {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: yellow;
+    border-radius: 50%;
+    z-index: 1;  /* Ensure the center is on top of the petals */
+}
+
+/* Stem of the flower */
+.stem {
+    position: relative;
+    top: 150px;
+    width: 10px;
+    height: 250px;
+    background-color: green;
+    margin-top: -20px; /* Connect the stem with the flower */
+}
+
+/* Media display styling */
+.media-display {
+    position: absolute;
+    top: 20px;
+    width: 80%;
+    height: 300px;
+    text-align: center;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    display: none; /* Initially hidden */
+}
+
+#media-display img, #media-display video {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.end-message {
+    display: none; /* Initially hidden */
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-top: 20px;
+    top: 100px;
+    position: relative;
+}
+
+#restart-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#restart-button:hover {
+    background-color: #0056b3;
+}
