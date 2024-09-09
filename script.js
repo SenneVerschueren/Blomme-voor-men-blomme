@@ -86,6 +86,7 @@ const mediaCollection = [
 ];
 
 let usedMedia = [];
+let preloadedMedia = {}; // Store preloaded media here
 
 const petals = document.querySelectorAll('.petal');
 const endMessage = document.getElementById('end-message');
@@ -94,6 +95,22 @@ let petalsPulledOut = 0;
 
 // Array to keep track of which petals are pulled out
 const petalStates = [false, false, false, false, false, false];
+
+// Preload media files
+function preloadMedia() {
+    mediaCollection.forEach(media => {
+        if (media.endsWith('.mp4')) {
+            const video = document.createElement('video');
+            video.src = media;
+            video.preload = 'auto'; // Preload the video
+            preloadedMedia[media] = video; // Store preloaded video
+        } else {
+            const img = new Image();
+            img.src = media; // Preload image
+            preloadedMedia[media] = img; // Store preloaded image
+        }
+    });
+}
 
 function handlePetalClick(event) {
     const petal = event.target;
@@ -138,20 +155,19 @@ function getRandomMedia() {
 
 function displayMedia(media) {
     const mediaDisplay = document.getElementById('media-display');
-    mediaDisplay.innerHTML = '';
+    mediaDisplay.innerHTML = ''; // Clear previous media
 
     if (media.endsWith('.mp4')) {
-        const video = document.createElement('video');
-        video.src = media;
+        const video = preloadedMedia[media].cloneNode(true); // Clone the preloaded video element
         video.controls = true;
         video.autoplay = true;
         mediaDisplay.appendChild(video);
     } else {
-        const img = document.createElement('img');
-        img.src = media;
+        const img = preloadedMedia[media].cloneNode(true); // Clone the preloaded image element
         mediaDisplay.appendChild(img);
     }
-    mediaDisplay.style.display = 'block';
+
+    mediaDisplay.style.display = 'block'; // Ensure the media display is visible
 }
 
 function showEndMessage() {
@@ -177,3 +193,5 @@ petals.forEach(petal => {
 // Attach event listener to restart button
 restartButton.addEventListener('click', restart);
 
+// Call the preloadMedia function to start preloading media files
+preloadMedia();
