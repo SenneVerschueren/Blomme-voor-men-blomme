@@ -124,6 +124,7 @@ const mediaCollection = [
 let usedMedia = [];
 let preloadedMedia = {}; // Store preloaded media here
 
+
 const petals = document.querySelectorAll('.petal');
 const endMessage = document.getElementById('end-message');
 const restartButton = document.getElementById('restart-button');
