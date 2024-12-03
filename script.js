@@ -154,21 +154,23 @@ function handlePetalClick(event) {
     const index = Array.from(petals).indexOf(petal);
 
     if (!petalStates[index]) {
-        // Mark this petal as pulled out
         petalStates[index] = true;
         petalsPulledOut++;
-        petal.style.display = 'none';
+        petal.classList.add('clicked'); // Add clicked class for animation
 
-        // Show media when petal is clicked
+        setTimeout(() => {
+            petal.style.display = 'none'; // Hide petal after animation
+        }, 1000); // Match timeout to fall animation duration
+
         const media = getRandomMedia();
         displayMedia(media);
 
-        // Check if all petals are pulled out
         if (petalsPulledOut === petals.length) {
             showEndMessage();
         }
     }
 }
+
 
 function getRandomMedia() {
    // Filter mediaCollection to exclude already used media
@@ -212,9 +214,10 @@ function showEndMessage() {
 }
 
 function restart() {
-    petals.forEach(petal => {
+    petals.forEach(async petal => {
         petalStates.fill(false);
-        petal.style.display = 'block'; // Reset petal states
+     petal.style.display = 'block'; // Reset petal states
+     petal.classList.remove('clicked'); // Remove clicked class
     });
     petalsPulledOut = 0;
     endMessage.style.display = 'none';

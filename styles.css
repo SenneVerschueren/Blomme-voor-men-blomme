@@ -13,7 +13,7 @@ body, html {
     background-color: #f7f9fc; /* Softer background color */
 }
 
-.flower-container {
+/* .flower-container {
     position: relative;
     width: 200px;
     height: 400px;
@@ -22,7 +22,7 @@ body, html {
     align-items: center;
     flex-direction: column;
     margin-bottom: 40px; /* Add space below flower for media */
-}
+/* } */ 
 
 .flower {
     position: relative;
@@ -34,48 +34,62 @@ body, html {
     margin-top: 180px;
 }
 
-/* Style the petals */
+/* Style the petals with gradient for depth */
 .petal {
     position: absolute;
-    width: 50px;
-    height: 100px;
-    background-color: #ffcccb; /* Softer pink */
-    border: 2px solid #ff99aa; /* Add border to petals for definition */
+    width: 60px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, #ffcccb, #ff99aa);
     border-radius: 50%;
     cursor: pointer;
-    transform-origin: 50% 90%; /* Rotate around the base of the petal */
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    transform-origin: 50% 90%;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth pull-out animation */
 }
 
-/* Position petals around the center */
-.petal-1 { transform: rotate(0deg) translate(0, -50px); }
-.petal-2 { transform: rotate(60deg) translate(-20px, -30px); }
-.petal-3 { transform: rotate(120deg) translate(-25px, -0px); }
-.petal-4 { transform: rotate(180deg) translate(0, 15px); z-index: 1; }
-.petal-5 { transform: rotate(240deg) translate(25px, 0px); }
-.petal-6 { transform: rotate(300deg) translate(20px, -30px); }
-
+/* Center of the flower with a texture effect */
 .center {
     position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: #ffeb3b; /* Brighter yellow for center */
-    border: 2px solid #fbc02d; /* Slightly darker border */
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #ffeb3b, #fbc02d);
+    border: 2px solid #f9a825;
     border-radius: 50%;
-    z-index: 2;  /* Ensure the center is on top of the petals */
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3); /* Adding shadow to center */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
 }
 
+/* Stem with a slight gradient for realism */
 .stem {
     position: relative;
     top: 150px;
-    width: 10px;
+    width: 12px;
     height: 250px;
-    background-color: #4caf50; /* Softer green */
-    border-radius: 5px; /* Rounded stem edges */
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    margin-top: -20px;
+    background: linear-gradient(to bottom, #4caf50, #388e3c);
+    border-radius: 6px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* Add a slight tilt to petals for organic look */
+.petal-1 { transform: rotate(-5deg) translate(0, -50px); }
+.petal-2 { transform: rotate(55deg) translate(-20px, -30px); }
+.petal-3 { transform: rotate(115deg) translate(-25px, 0px); }
+.petal-4 { transform: rotate(175deg) translate(0, 15px); z-index: 1; }
+.petal-5 { transform: rotate(235deg) translate(25px, 0px); }
+.petal-6 { transform: rotate(295deg) translate(20px, -30px); }
+
+/* Add shadow to the flower container for depth */
+.flower-container {
+    filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.3));
+    perspective: 1000px; /* Adds 3D depth */
+}
+
+/* Petal pulled-out effect */
+.petal[style*="display: none"] {
+    opacity: 0;
+    transform: scale(0.7) rotate(15deg);
+}
+
 
 /* Media display styling */
 .media-display {
@@ -127,4 +141,46 @@ body, html {
 
 #restart-button:hover {
     background-color: #0056b3;
+}
+
+/* Adding global animations */
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+@keyframes fall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100px) rotate(360deg); }
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-3deg); }
+}
+
+/* Adding animations to elements */
+.petal {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.petal.clicked {
+    animation: fall 1s ease-out forwards; /* Falling animation on click */
+}
+
+.center {
+    animation: bounce 0.3s ease-in-out; /* Bounce when petals are clicked */
+}
+
+
+/* Media display */
+#media-display img, #media-display video {
+    animation: fadeIn 0.5s ease; /* Smooth fade-in for media */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
