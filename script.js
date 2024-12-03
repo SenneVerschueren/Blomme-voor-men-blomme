@@ -114,7 +114,11 @@ const mediaCollection = [
     'media/20240916_181529.jpg',
     'media/20240917_202746(0).jpg',
     'media/VID-20240918-WA0029.mp4',
-    'media/Snapchat-692693445.mp4'
+    'media/Snapchat-692693445.mp4',
+    'media/20241111_233725.jpg',
+    'media/IMAGE_1.png',
+    'media/IMAGE_2.png',
+    'media/IMAGE_3.png',
 ];
 
 let usedMedia = [];
