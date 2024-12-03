@@ -233,5 +233,50 @@ petals.forEach(petal => {
 // Attach event listener to restart button
 restartButton.addEventListener('click', restart);
 
-// Call the preloadMedia function to start preloading media files
-preloadMedia();
+function createAdventCalendar() {
+    const calendar = document.getElementById('advent-calendar');
+    const today = new Date();
+    const start = new Date(today.getFullYear(), 11, 1); // Start on December 1st
+    const end = new Date(today.getFullYear(), 11, 19); // End on December 19th
+    const openedDays = JSON.parse(localStorage.getItem('openedDays')) || []; // Retrieve opened days from storage
+
+    for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
+        const day = date.getDate();
+        const dayElement = document.createElement('div');
+        dayElement.className = 'advent-day';
+        dayElement.textContent = day;
+
+        const isToday = today.toDateString() === date.toDateString();
+        const isPast = date < today;
+
+        // Disable future days
+        if (!isPast && !isToday) {
+            dayElement.classList.add('disabled');
+        }
+
+        // Mark already opened days
+        if (openedDays.includes(day)) {
+            dayElement.classList.add('opened');
+        }
+
+        // Add click event for days that can be opened
+        dayElement.addEventListener('click', () => {
+            if (!dayElement.classList.contains('opened') && (isToday || isPast)) {
+                dayElement.classList.add('opened');
+                openedDays.push(day);
+                localStorage.setItem('openedDays', JSON.stringify(openedDays));
+
+                const media = getRandomMedia(); // Reuse your media selection function
+                displayMedia(media); // Display media in the media display
+            }
+        });
+
+        calendar.appendChild(dayElement);
+    }
+}
+
+// Call this function when the page loads
+window.onload = () => {
+    preloadMedia(); // Preload media files
+    createAdventCalendar(); // Create the advent calendar
+};
