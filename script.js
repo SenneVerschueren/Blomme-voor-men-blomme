@@ -133,6 +133,11 @@ let petalsPulledOut = 0;
 // Array to keep track of which petals are pulled out
 const petalStates = [false, false, false, false, false, false];
 
+// Clear local storage on first visit
+if (!localStorage.getItem('firstVisit')) {
+    localStorage.clear();
+    localStorage.setItem('firstVisit', 'true');
+}
 // Preload media files
 function preloadMedia() {
     mediaCollection.forEach(media => {
@@ -236,8 +241,8 @@ restartButton.addEventListener('click', restart);
 function createAdventCalendar() {
     const calendar = document.getElementById('advent-calendar');
     const today = new Date();
-    const start = new Date(today.getFullYear(), 11, 1); // Start on December 1st
-    const end = new Date(today.getFullYear(), 11, 19); // End on December 19th
+    const start = new Date(today.getFullYear(), 0, 1); // Start on December 1st
+    const end = new Date(today.getFullYear(), 0, 24); // End on December 19th
     const openedDays = JSON.parse(localStorage.getItem('openedDays')) || []; // Retrieve opened days from storage
 
     for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
