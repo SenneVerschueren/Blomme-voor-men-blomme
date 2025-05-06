@@ -1,35 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blomme voor men blomme</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Sterrenhemel</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: url("media/IMG-20240708-WA0158.jpg") no-repeat center center
+          fixed;
+        background-size: cover;
+        font-family: Arial, sans-serif;
+      }
+
+      .star {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 8px white;
+        cursor: pointer;
+        animation: twinkle 2s infinite;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      .message {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        max-width: 300px;
+        display: none;
+      }
+
+      #media-display {
+        position: fixed; /* Fixed position */
+        top: 50%; /* Position it in the middle vertically */
+        left: 50%; /* Position it in the middle horizontally */
+        transform: translate(
+          -50%,
+          -50%
+        ); /* Offset by half of its width and height */
+        width: 80%; /* Limit the width of the media */
+        max-width: 600px; /* Max width */
+        height: auto;
+        text-align: center;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+        border-radius: 10px;
+        z-index: 1000; /* Ensure it's on top of other content */
+        display: none; /* Initially hidden */
+      }
+
+      #media-display img,
+      #media-display video {
+        max-width: 100%;
+        max-height: 40vh; /* Limit media height */
+        border-radius: 10px; /* Rounded corners for media */
+        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2); /* Soft shadow on media */
+      }
+    </style>
   </head>
   <body>
-    <div id="advent-calendar" class="advent-calendar">
-      <p class="title">THIS IS THE FINAL COUNTDOWN!! Ik hou van jou</p>
-      <!-- Generate days dynamically -->
-    </div>
+    <div id="media-display"></div>
+    <script>
+      // Collection of images and videos
+      const mediaCollection = [
+        "media/20240505_220424.jpg",
+        "media/20240630_213123.jpg",
+        "media/20240702_173424.jpg",
+        "media/20240702_173426.jpg",
+        "media/20240702_174351.jpg",
+        "media/20240702_174409.jpg",
+        "media/20240702_205418.jpg",
+        "media/20240704_102605.jpg",
+        "media/20240704_102607.jpg",
+        "media/20240704_102621.jpg",
+        "media/20240704_102623.jpg",
+        "media/20240704_113258(0).jpg",
+        "media/20240704_113300.jpg",
+        "media/IMG-20240211-WA0023.jpg",
+        "media/IMG-20240211-WA0024.jpg",
+        "media/IMG-20240211-WA0027.jpg",
+        "media/IMG-20240508-WA0009.jpg",
+        "media/IMG-20240508-WA0013.jpg",
+        "media/IMG-20240620-WA0001.jpg",
+        "media/IMG-20240620-WA0002.jpg",
+        "media/IMG-20240620-WA0003.jpg",
+        "media/IMG-20240620-WA0005.jpg",
+        "media/IMG-20240620-WA0007.jpg",
+        "media/IMG-20240620-WA0008.jpg",
+        "media/IMG-20240620-WA0009.jpg",
+        "media/IMG-20240620-WA0010.jpg",
+        "media/IMG-20240620-WA0011.jpg",
+        "media/IMG-20240620-WA0012.jpg",
+        "media/IMG-20240620-WA0013.jpg",
+        "media/IMG-20240620-WA0014.jpg",
+        "media/IMG-20240702-WA0105.jpg",
+        "media/IMG-20240702-WA0106.jpg",
+        "media/IMG-20240702-WA0107.jpg",
+        "media/IMG-20240702-WA0108.jpg",
+        "media/IMG-20240702-WA0119.jpg",
+        "media/IMG-20240702-WA0136.jpg",
+        "media/IMG-20240704-WA0045.jpg",
+        "media/IMG-20240704-WA0045.jpg",
+        "media/IMG-20240704-WA0048.jpg",
+        "media/IMG-20240708-WA0158.jpg",
+        "media/P7090177.jpg",
+        "media/P7090183.jpg",
+        "media/P7090241.jpg",
+        "media/P7090242.jpg",
+        "media/P7090271.jpg",
+        "media/P7090272.jpg",
+        "media/P7090273.jpg",
+        "media/Screen_Recording_20240517_220033_Instagram.mp4",
+        "media/Screenshot_20240702_140331_Gallery.jpg",
+        "media/Screenshot_20240702_140352_Gallery.jpg",
+        "media/Screenshot_20240702_141305_Gallery.jpg",
+        "media/Screenshot_20240702_141320_Gallery.jpg",
+        "media/Screenshot_20240702_141339_Gallery.jpg",
+        "media/Screenshot_20240702_141414_Gallery.jpg",
+        "media/Screenshot_20240702_141606_Gallery.jpg",
+        "media/Screenshot_20240702_141910_Gallery.jpg",
+        "media/Screenshot_20240702_141919_Gallery.jpg",
+        "media/Screenshot_20240702_142121_Gallery.jpg",
+        "media/Screenshot_20240702_142249_Gallery.jpg",
+        "media/Snapchat-25721576.mp4",
+        "media/Snapchat-43299055.jpg",
+        "media/Snapchat-148558135.jpg",
+        "media/Snapchat-256811469.jpg",
+        "media/Snapchat-458981200.jpg",
+        "media/Snapchat-572243041.jpg",
+        "media/Snapchat-591248537.jpg",
+        "media/Snapchat-609410953.jpg",
+        "media/Snapchat-796328127.jpg",
+        "media/Snapchat-937077977-1.jpg",
+        "media/Snapchat-1011400522.jpg",
+        "media/Snapchat-1035329385.jpg",
+        "media/Snapchat-1115729425.jpg",
+        "media/Snapchat-1298348067.jpg",
+        "media/Snapchat-1423320303.jpg",
+        "media/Snapchat-1464727168.jpg",
+        "media/Snapchat-1511984831.jpg",
+        "media/Snapchat-1673981410.mp4",
+        "media/Snapchat-1704639472.jpg",
+        "media/Snapchat-1710181779.jpg",
+        "media/Snapchat-1805858133.jpg",
+        "media/Snapchat-1914531543.jpg",
+        "media/Snapchat-1962828438.jpg",
+        "media/VID-20240820-WA0001.mp4",
+        "media/IMG-20240915-WA0001.jpg",
+        "media/IMG-20240918-WA0015.jpg",
+        "media/IMG-20240918-WA0016.jpg",
+        "media/IMG-20240918-WA0017.jpg",
+        "media/IMG-20240918-WA0037.jpg",
+        "media/IMG-20240918-WA0041.jpg",
+        "media/IMG-20240918-WA0042.jpg",
+        "media/IMG-20240918-WA0043.jpg",
+        "media/IMG-20240918-WA0044.jpg",
+        "media/IMG-20240918-WA0046.jpg",
+        "media/IMG-20240918-WA0048.jpg",
+        "media/IMG-20240918-WA0049.jpg",
+        "media/IMG-20240918-WA0050.jpg",
+        "media/IMG-20240918-WA0051.jpg",
+        "media/IMG-20240918-WA0055.jpg",
+        "media/IMG-20240918-WA0059.jpg",
+        "media/IMG-20240918-WA0060.jpg",
+        "media/IMG-20240918-WA0062.jpg",
+        "media/IMG-20240918-WA0075.jpg",
+        "media/IMG-20240918-WA0082.jpg",
+        "media/IMG-20240918-WA0083.jpg",
+        "media/IMG-20240918-WA0084.jpg",
+        "media/20240913_171602.jpg",
+        "media/20240915_113045.jpg",
+        "media/20240916_181521.jpg",
+        "media/20240916_181524.jpg",
+        "media/20240916_181526.jpg",
+        "media/20240916_181526(0).jpg",
+        "media/20240916_181529.jpg",
+        "media/20240917_202746(0).jpg",
+        "media/VID-20240918-WA0029.mp4",
+        "media/Snapchat-692693445.mp4",
+        "media/20241111_233725.jpg",
+        "media/IMAGE_1.png",
+        "media/IMAGE_2.png",
+        "media/IMAGE_3.png",
+        "media/20250124_161359.jpg",
+        "media/20250124_162411.jpg",
+        "media/20250125_163647.jpg",
+        "media/20250202_123236.jpg",
+        "media/IMG_20250228_224459_959.jpg",
+        "media/Snapchat-312441527.jpg",
+        "media/Snapchat-1602312036.jpg",
+        "media/Snapchat-1710612660.jpg",
+        "media/Snapchat-1752397780.jpg",
+      ];
 
-    <div class="flower-container">
-      <div class="flower">
-        <!-- <div class="petal petal-1"></div>
-        <div class="petal petal-2"></div>
-        <div class="petal petal-3"></div>
-        <div class="petal petal-4"></div>
-        <div class="petal petal-5"></div>
-        <div class="petal petal-6"></div>
-        <div class="center"></div>
-        <div class="stem"></div> -->
-      </div>
-    </div>
-    <div id="media-display" class="media-display"></div>
-    <div id="end-message" class="end-message">
-      <p>I love you liefje! Op nog veel leuke momentjes!</p>
-      <button id="restart-button">OPNIEUW</button>
-    </div>
+      const preloadedMedia = {};
+      let mediaDisplayActive = false;
 
-    <script src="script.js"></script>
+      // Preload media files
+      function preloadMedia() {
+        mediaCollection.forEach((media) => {
+          if (media.endsWith(".mp4")) {
+            const video = document.createElement("video");
+            video.src = media;
+            video.preload = "auto"; // Preload the video
+            preloadedMedia[media] = video; // Store preloaded video
+          } else {
+            const img = new Image();
+            img.src = media; // Preload image
+            preloadedMedia[media] = img; // Store preloaded image
+          }
+        });
+      }
+
+      // Dynamisch sterren genereren
+      function generateStars() {
+        for (let i = 0; i < 100; i++) {
+          const star = document.createElement("div");
+          star.classList.add("star");
+          const x = Math.random() * window.innerWidth;
+          const y = Math.random() * window.innerHeight;
+          star.style.top = `${y}px`;
+          star.style.left = `${x}px`;
+          star.addEventListener("click", (e) => {
+            // Stop event propagation to prevent immediate closing
+            e.stopPropagation();
+            showMediaOnClick();
+          });
+          document.body.appendChild(star);
+        }
+      }
+
+      // Toon media bij klik
+      function showMediaOnClick() {
+        const randomMedia = getRandomMedia();
+        displayMedia(randomMedia);
+        mediaDisplayActive = true;
+      }
+
+      // Kies een willekeurige media
+      function getRandomMedia() {
+        const randomIndex = Math.floor(Math.random() * mediaCollection.length);
+        return mediaCollection[randomIndex];
+      }
+
+      // Toont de geselecteerde media
+      function displayMedia(media) {
+        const mediaDisplay = document.getElementById("media-display");
+        mediaDisplay.innerHTML = ""; // Clear previous media
+        if (media.endsWith(".mp4")) {
+          const video = preloadedMedia[media].cloneNode(true); // Clone the preloaded video element
+          video.controls = true;
+          video.autoplay = true;
+          // Prevent clicks on video from closing the display
+          video.addEventListener("click", (e) => {
+            e.stopPropagation();
+          });
+          mediaDisplay.appendChild(video);
+        } else {
+          const img = preloadedMedia[media].cloneNode(true); // Clone the preloaded image element
+          mediaDisplay.appendChild(img);
+        }
+        mediaDisplay.style.display = "block"; // Ensure the media display is visible
+      }
+
+      // Verberg media bij klik op document
+      function hideMedia() {
+        if (mediaDisplayActive) {
+          const mediaDisplay = document.getElementById("media-display");
+          mediaDisplay.style.display = "none";
+          mediaDisplayActive = false;
+        }
+      }
+
+      // Initialiseer alles bij het laden van de pagina
+      window.onload = () => {
+        preloadMedia(); // Preload media files
+        generateStars(); // Generate stars
+
+        // Add click event to document to hide media when clicked
+        document.addEventListener("click", hideMedia);
+
+        // Prevent media display clicks from triggering the hide action
+        const mediaDisplay = document.getElementById("media-display");
+        mediaDisplay.addEventListener("click", (e) => {
+          e.stopPropagation();
+          hideMedia(); // Still hide when clicking directly on the media container
+        });
+      };
+    </script>
   </body>
 </html>
